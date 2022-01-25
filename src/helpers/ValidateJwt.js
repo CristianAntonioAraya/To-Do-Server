@@ -31,4 +31,4 @@ const validateJwt = ( req, res, next ) => {
     next()
 }
 
-module.export = validateJwt;
+module.exports = validateJwt;

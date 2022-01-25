@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { getAllUsers, createNewUser, deleteUser, signIn } = require('../controllers/UserControlles');
+const { getAllUsers, createNewUser, deleteUser, signIn, renewToken } = require('../controllers/UserControlles');
+const validateJwt = require('../helpers/ValidateJwt');
 
 const router = Router();
 
@@ -10,5 +11,7 @@ router.post('/signup',createNewUser)
 router.delete('/:id', deleteUser)
 
 router.post('/signin', signIn)
+
+router.get('/renew', validateJwt, renewToken )
 
 module.exports = router;
