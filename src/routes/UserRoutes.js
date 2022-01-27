@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAllUsers, createNewUser, deleteUser, signIn, renewToken } = require('../controllers/UserControlles');
+const { getAllUsers, createNewUser, deleteUser, signIn, renewToken } = require('../controllers/UserController');
 const validateJwt = require('../helpers/ValidateJwt');
 
 const router = Router();

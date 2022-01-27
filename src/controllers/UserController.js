@@ -21,13 +21,16 @@ const getAllUsers = async ( req, res ) => {
 const createNewUser = async ( req, res ) => { 
 
     //Get the new user data provided by the client
-    const newUser = req.body;
+    const { userName, email, password } = req.body;
+    
+    const addUser = { userName, email, password } 
 
-    const checkUser = await userModel.findOne({ email: newUser.email })
+
+    const checkUser = await userModel.findOne({ email: email })
 
     //Email already use
     if(checkUser) {
-        res.status(400).json({
+        return res.json({
             ok: false,
             msg: 'Email already registered'
         })
@@ -35,15 +38,14 @@ const createNewUser = async ( req, res ) => {
 
     try {
     //Create a new user using the model already created 
-        const user = new userModel( newUser )
+        const user = new userModel( addUser )
 
     //Encrypt the user password before save in data base
 
         //Salt is the amount of rounfd of hashing
-        const salt = bcrypt.genSaltSync(10)
-        const password = bcrypt.hashSync(newUser.password, salt)
+        const salt = bcrypt.genSaltSync();
         //replace for the encrypted password
-        user.password = password;
+        user.password = bcrypt.hashSync(password, salt)
         
     //Save in dbs the new user
     await user.save()
@@ -64,7 +66,7 @@ const createNewUser = async ( req, res ) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).json({
+        res.json({
             ok: false,
             msg: "Bad Request"
         })
@@ -94,6 +96,8 @@ const deleteUser = async ( req, res ) => {
 const signIn = async ( req, res ) => {
     const { email, password } = req.body;
 
+    console.log(req.body);
+
     try {
         const user = await userModel.findOne({ email })       
         //If the user doesnt exist
@@ -117,6 +121,7 @@ const signIn = async ( req, res ) => {
         res.json({
             ok: true,
             msg: 'User login correctly',
+            id: user._id,
             userName: user.userName,
             email: user.email,
             token
