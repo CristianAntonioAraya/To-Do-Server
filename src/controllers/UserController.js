@@ -96,8 +96,6 @@ const deleteUser = async ( req, res ) => {
 const signIn = async ( req, res ) => {
     const { email, password } = req.body;
 
-    console.log(req.body);
-
     try {
         const user = await userModel.findOne({ email })       
         //If the user doesnt exist
@@ -136,10 +134,10 @@ const signIn = async ( req, res ) => {
     }
 }
 
-
 const renewToken = async( req, res ) => { 
-    const { id, userName } = req.body;
 
+    const { id, userName } = req;
+    
     const token = await generateJwt(id, userName)
 
     res.json({
@@ -151,6 +149,5 @@ const renewToken = async( req, res ) => {
     })
 
 }
-
 
 module.exports = { getAllUsers, createNewUser, deleteUser, signIn, renewToken }

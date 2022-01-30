@@ -5,7 +5,7 @@ const validateJwt = ( req, res, next ) => {
     const token = req.header('x-token')
     //If the client dont send a token
     if(!token){
-        return res.status(401).json({
+        return res.json({
             ok: false,
             msg: 'The token is missing'
         })
@@ -21,14 +21,17 @@ const validateJwt = ( req, res, next ) => {
         
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ 
+        console.log('Jwt expired or invalid');
+        return res.json({ 
             ok: false,
-            msg: 'Internal server error'
+            msg: 'Invalid Token'
         })
     }
     //If all is ok and the token is valid, then continues with the request
     next()
 }
+
+
+
 
 module.exports = validateJwt;

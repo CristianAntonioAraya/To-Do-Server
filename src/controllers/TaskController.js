@@ -31,6 +31,7 @@ const getTasksByOwner = async( req, res ) => {
 const createNewTask = async( req, res ) => {
 
     const { title, description, state } = req.body;
+    console.log(req.body);
 
     const newTask = new taskModel( { title, description, state } );
 
