@@ -9,7 +9,7 @@ const generateJwt = ( id, userName ) => {
 
         //Create a new token and sign using the secret word
         jwt.sign(payload, secret, {     
-            expiresIn: '2h'
+            expiresIn: '7d'
         }, (error, token ) => { 
 
             //If error exist, reject the promise

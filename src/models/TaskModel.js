@@ -13,7 +13,7 @@ const taskSchema = new Schema({
     },
     state: {
         type: String,
-        default: 'Active'
+        default: 'active'
     },
     owner: {
         type: Schema.Types.ObjectId,
