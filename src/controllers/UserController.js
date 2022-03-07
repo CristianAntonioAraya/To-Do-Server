@@ -77,12 +77,14 @@ const deleteUser = async ( req, res ) => {
 
     //Get the user id by the params of the request
     const {id} = req.params
+
     try {
         //Find the user with the id and delete
         await userModel.findByIdAndDelete(id)
         res.json({
             ok: true,
-            msg: 'User delete Correctly'
+            msg: 'User delete Correctly',
+            id
         })
         
     } catch (error) {

@@ -1,3 +1,5 @@
+const res = require('express/lib/response');
+const TaskModel = require('../models/TaskModel');
 const taskModel = require('../models/TaskModel');
 
 const getAllTasks = async ( req, res ) => { 
@@ -27,6 +29,32 @@ const getTasksByOwner = async( req, res ) => {
         })
     }
 }
+const deleteTask = async ( req, res ) => { 
+    
+    const { id } = req.params;
+    const task =await TaskModel.findById( id )
+
+    if( !task ){
+        return res.json({ 
+            ok: false,
+            msg: 'task not found'
+        })
+    }
+    
+    try {
+        await taskModel.findByIdAndDelete( id )
+        res.json({
+            ok: true,
+            msg : 'Task remove correctly'
+        })
+    } catch (error) {
+        console.log(error)
+        res.json({
+            ok: false,
+            msg: 'Internal Server error'
+        })
+    }
+}
 
 const createNewTask = async( req, res ) => {
 
@@ -51,9 +79,38 @@ const createNewTask = async( req, res ) => {
             msg: 'Bad Request'
         })
     }
-
 } 
+const updateState = async( req, res ) => {
+
+
+    const { state } = req.body;
+    const { id } = req.params
+
+    const task = await taskModel.findById( id )
+
+    if(!task){
+        return res.json({
+            ok:false,
+            msg: 'Task not found'
+        })
+    }
+
+    try {
+        await taskModel.findByIdAndUpdate( id, {'state': state})
+        res.json({
+            ok: true,
+            msg: 'Task updated correctly',
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.json({
+            ok:false,
+            msg: 'Internal Server error'
+        })
+    }
+}
 
 
 
-module.exports = { getAllTasks, getTasksByOwner,createNewTask }
+module.exports = { getAllTasks, getTasksByOwner,createNewTask, deleteTask,updateState }
