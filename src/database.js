@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.MONGOOSE_URI)
+mongoose.connect('mongodb+srv://Cristian:Calamaalbo13@cluster0.eib76.mongodb.net/ToDoAppSECRET_JWT_SEED=ThisIsTheS3cretWordFromToDoApp')
 
 const connection = mongoose.connection;
 
